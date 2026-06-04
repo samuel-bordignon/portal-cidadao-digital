@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Lora, Sora } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Providers } from "./providers/providers";
 
 const sora = Sora({
   subsets: ["latin"],
