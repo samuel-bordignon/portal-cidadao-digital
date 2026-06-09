@@ -59,3 +59,15 @@ export const findAll = async (): Promise<Author[]> => {
     return data || []
 }
 
+export const findByApiKeyHash = async (api_key_hash: string): Promise<Author | null> => {
+    
+    const { data, error } = await supabase
+        .from('authors')
+        .select(`*`)
+        .eq('api_key_hash', api_key_hash)
+        .maybeSingle()
+
+    if (error) throw error
+
+    return data
+}
