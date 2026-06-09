@@ -14,4 +14,48 @@ export const create = async (data: CreateAuthorInput): Promise<Author> => {
     return author
 }
 
+export const update = async (id: string, data: UpdateAuthorInput): Promise<Author> => {
+    const { data: author, error } = await supabase
+        .from('authors')
+        .update(data)
+        .eq('id', id)
+        .select()
+        .single()
+
+    if (error) throw error
+
+    return author
+}
+
+export const remove = async (id: string): Promise<void> => {
+    const { error } = await supabase
+        .from('authors')
+        .delete()
+        .eq('id', id)
+
+    if (error) throw error
+}
+
+export const findById = async (id: string): Promise<Author | null> => {
+    const { data, error } = await supabase
+        .from('authors')
+        .select(`*`)
+        .eq('id', id)
+        .maybeSingle()
+
+    if (error) throw error
+
+    return data
+}
+
+export const findAll = async (): Promise<Author[]> => {
+    const { data, error } = await supabase
+    .from('authors')
+    .select(`*`)
+    .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    
+    return data || []
+}
 
