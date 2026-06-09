@@ -3,7 +3,7 @@ import { authenticateFromRequest } from "@/lib/auth"
 import { UpdatePostSchema} from "@/schemas/post.schema"
 import { deletePost, getPostById, updatePost } from "@/service/post.service"
 
-export async function GET(context: { params: Promise<{ id: string }> }) {
+export async function GET(_request: Request,context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 

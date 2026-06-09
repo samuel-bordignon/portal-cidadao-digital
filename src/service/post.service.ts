@@ -11,6 +11,7 @@ export const getPosts = async () => {
 
 export const getPostBySlug = async (slug: string) => {
     const post = await postRepository.findBySlug(slug)
+    
     if (!post) {
         throw new HttpError(404, "Post não encontrado")
     }

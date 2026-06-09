@@ -17,9 +17,10 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
-        const posts = await PostService.getPublishedPosts()
+        await authenticateFromRequest(request, ['admin', 'author'])
+        const posts = await PostService.getPosts()
 
         return Response.json(posts, { status: 201 })
     } catch (err) {
