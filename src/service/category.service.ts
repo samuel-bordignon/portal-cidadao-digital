@@ -41,6 +41,10 @@ export const getCategoryById = async (id: string) => {
     return category
 }
 
+export const getCategories = async () => {
+    return await categoryRepository.findAll()
+}
+
 export const getCategoryBySlug = async (slug: string) => {
     const category = await categoryRepository.findBySlug(slug)
 
@@ -56,10 +60,6 @@ export const getCategoriesByAuthor = async (author_id: string) => {
     if (!categories) {
         throw new HttpError(404, "Categorias não encontradas")
     }
-}
-
-export const getCategories = async () => {
-    return await categoryRepository.findAll()
 }
 
 export const getCategoriesWithPublishedPosts = async () => {
