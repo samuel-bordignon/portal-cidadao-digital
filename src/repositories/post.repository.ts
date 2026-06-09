@@ -66,3 +66,45 @@ export const findAll = async (): Promise<Post[]> => {
   return data ?? []
 }
 
+export const findAllPublished = async (): Promise<Post[]> => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`
+      *,
+      author:authors(*),
+      category:categories(*)
+    `)
+    .eq('status', 'published')
+
+  if (error) throw error
+
+  return data ?? []
+}
+
+export const findByAuthor = async (  authorId: string): Promise<Post[]> => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`
+      *,
+      author:authors(*),
+      category:categories(*)
+    `)
+    .eq('author_id', authorId)
+
+  if (error) throw error
+
+  return data ?? []
+}
+
+export const findBySlug = async (slug: string): Promise<Post | null> => {
+    const { data, error } = await supabase
+        .from('posts')
+        .select(`*,author:authors(*),category:categories(*)`)
+        .eq('slug', slug)
+        .eq('status', 'published')
+        .maybeSingle()
+
+    if (error) throw error
+
+    return data
+}
