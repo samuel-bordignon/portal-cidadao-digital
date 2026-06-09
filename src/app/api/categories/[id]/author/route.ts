@@ -2,7 +2,7 @@ import { authenticateFromRequest } from "@/lib/auth"
 import { errorResponse } from "@/lib/httpError"
 import { getCategoriesByAuthor } from "@/service/category.service"
 
-export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
     try {
         const { id } = await context.params
 
