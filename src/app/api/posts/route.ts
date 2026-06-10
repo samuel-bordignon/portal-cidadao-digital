@@ -5,15 +5,15 @@ import { errorResponse } from '@/lib/httpError'
 
 export async function POST(request: Request) {
     try {
-        await authenticateFromRequest(request, ['admin', 'author'])
+        const author = await authenticateFromRequest(request, ['admin', 'author'])
 
-        const payload = CreatePostSchema.omit({ slug: true, status: true }).parse(await request.json())
+        const payload = CreatePostSchema.omit({ slug: true, status: true, author_id: true }).parse(await request.json())
 
-        const post = await PostService.createPost(payload)
+        const post = await PostService.createPost(payload, author.id)
 
         return Response.json(post, { status: 201 })
     } catch (err) {
-        errorResponse(err)
+        return errorResponse(err)
     }
 }
 
