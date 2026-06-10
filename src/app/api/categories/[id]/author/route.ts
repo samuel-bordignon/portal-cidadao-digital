@@ -10,7 +10,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
 
         const categories = await getCategoriesByAuthor(id)
 
-        return Response.json(categories, { status: 201 })
+        return Response.json(categories, { status: 200 })
     } catch (err) {
         return errorResponse(err)
     }
