@@ -7,7 +7,7 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
         const post = await getPostBySlug(slug)
 
-        return Response.json(post)
+        return Response.json(post, {status:200})
     } catch (err) {
         return errorResponse(err)
     }

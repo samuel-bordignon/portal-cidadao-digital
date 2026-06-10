@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         await authenticateFromRequest(request, ['admin', 'author'])
         const posts = await PostService.getPosts()
 
-        return Response.json(posts, { status: 201 })
+        return Response.json(posts, { status: 200 })
     } catch (err) {
         return errorResponse(err)
     }
