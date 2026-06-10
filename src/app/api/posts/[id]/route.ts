@@ -8,7 +8,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
     const { id } = await context.params
 
     await authenticateFromRequest(request, ['admin', 'author'])
-    
+
     const post = await getPostById(id)
 
     return Response.json(post, { status: 200 })

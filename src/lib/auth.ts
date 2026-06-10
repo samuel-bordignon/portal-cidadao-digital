@@ -6,7 +6,7 @@ type Role = 'admin' | 'author'
 
 export async function authenticateFromRequest(request: Request, roles?: Role[]) {
   const authHeader = request.headers.get("authorization")
-
+  
   if (!authHeader?.startsWith("Bearer ")) {
     throw new HttpError(401, "Não autenticado")
   }
