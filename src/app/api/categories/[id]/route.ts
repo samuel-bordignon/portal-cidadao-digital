@@ -23,7 +23,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
     const payload = UpdateCategorySchema.pick({ nome: true }).parse(await request.json())
 
-    const updated = await updateCategory(id, payload, author)
+    const updated = await updateCategory(id, payload, author.id, author.role)
 
     return Response.json(updated, { status: 200 })
   } catch (err) {

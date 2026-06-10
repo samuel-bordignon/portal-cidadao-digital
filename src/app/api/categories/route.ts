@@ -5,11 +5,11 @@ import { errorResponse } from '@/lib/httpError'
 
 export async function POST(request: Request) {
     try {
-        const author = await authenticateFromRequest(request, ['admin', 'author'])
+        const { id } = await authenticateFromRequest(request, ['admin', 'author'])
 
-        const payload = CreateCategorySchema.pick({nome:true}).parse(await request.json())
+        const payload = CreateCategorySchema.pick({ nome: true }).parse(await request.json())
 
-        const category = await createCategory(payload, author)
+        const category = await createCategory(payload, id)
 
         return Response.json(category, { status: 201 })
     } catch (err) {
@@ -17,8 +17,10 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
+        await authenticateFromRequest(request, ['admin', 'author'])
+
         const categories = await getCategories()
 
         return Response.json(categories, { status: 200 })
