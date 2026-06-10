@@ -50,20 +50,20 @@ export const findById = async (id: string): Promise<Author | null> => {
 
 export const findAll = async (): Promise<Author[]> => {
     const { data, error } = await supabase
-    .from('authors')
-    .select(`*`)
-    .order('created_at', { ascending: false })
-    
+        .from('authors')
+        .select(`*`)
+        .order('created_at', { ascending: false })
+
     if (error) throw error
-    
+
     return data || []
 }
 
-export const findByApiKeyHash = async (api_key_hash: string): Promise<Author | null> => {
-    
+export const findByApiKeyHash = async (api_key_hash: string): Promise<Pick<Author, "id" | 'role'> | null> => {
+
     const { data, error } = await supabase
         .from('authors')
-        .select(`*`)
+        .select(`id, role`)
         .eq('api_key_hash', api_key_hash)
         .maybeSingle()
 

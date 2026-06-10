@@ -2,11 +2,9 @@ import { authenticateFromRequest } from "@/lib/auth"
 import { errorResponse } from "@/lib/httpError"
 import { getCategoriesByAuthor } from "@/service/category.service"
 
-export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request) {
     try {
-        const { id } = await context.params
-
-        await authenticateFromRequest(request, ['admin'])
+        const { id } = await authenticateFromRequest(request, ['admin', 'author'])
 
         const categories = await getCategoriesByAuthor(id)
 

@@ -9,7 +9,7 @@ export async function GET(context: { params: Promise<{ id: string }> }) {
 
     const category = await getCategoryById(id)
 
-    return Response.json(category, { status: 201 })
+    return Response.json(category, { status: 200 })
   } catch (err) {
     return errorResponse(err)
   }
@@ -23,9 +23,9 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
     const payload = UpdateCategorySchema.pick({ nome: true }).parse(await request.json())
 
-    const updated = await updateCategory(id, payload, author)
+    const updated = await updateCategory(id, payload, author.id, author.role)
 
-    return Response.json(updated, { status: 201 })
+    return Response.json(updated, { status: 200 })
   } catch (err) {
     return errorResponse(err)
   }

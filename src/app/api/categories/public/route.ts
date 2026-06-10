@@ -7,7 +7,6 @@ export async function GET() {
 
         return Response.json(categories, { status: 200 })
     } catch (err) {
-        return errorResponse
-        (err)
+        return errorResponse(err)
     }
 }
