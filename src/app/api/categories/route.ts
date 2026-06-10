@@ -19,8 +19,6 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        await authenticateFromRequest(request, ['admin', 'author'])
-
         const categories = await getCategories()
 
         return Response.json(categories, { status: 200 })

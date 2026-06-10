@@ -6,7 +6,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
     try {
         const { id } = await context.params
 
-        await authenticateFromRequest(request, ['admin', 'author'])
+        await authenticateFromRequest(request, ['admin'])
 
         const posts = await getCategoriesByAuthor(id)
 

@@ -10,7 +10,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
         const published = await publishPost(id, author)
 
-        return Response.json(published, { status: 201 })
+        return Response.json(published, { status: 200 })
     } catch (err) {
         return errorResponse(err)
     }

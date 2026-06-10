@@ -11,6 +11,7 @@ export const getPosts = async () => {
 
 export const getPostBySlug = async (slug: string) => {
     const post = await postRepository.findBySlug(slug)
+
     if (!post) {
         throw new HttpError(404, "Post não encontrado")
     }
@@ -39,12 +40,12 @@ export const getPostById = async (id: string) => {
     return post
 }
 
-export const createPost = async (data: Omit<CreatePostInput, 'slug' | 'status'>) => {
+export const createPost = async (data: Omit<CreatePostInput, 'slug' | 'status' | 'author_id'>, author_id: string) => {
     const category = await categoryRepository.findById(data.category_id)
 
     if (!category) throw new HttpError(404, "Categoria não encontrada")
 
-    return postRepository.create({ ...data, slug: generateSlug(data.titulo), status: "draft" })
+    return postRepository.create({ ...data, slug: generateSlug(data.titulo), status: "draft", author_id })
 }
 
 export const updatePost = async (id: string, data: Omit<UpdatePostInput, 'slug' | 'status'>, author: Author) => {
