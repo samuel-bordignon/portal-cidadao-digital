@@ -8,7 +8,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
         const author = await authenticateFromRequest(request, ['admin', 'author'])
 
-        const published = await publishPost(id, author)
+        const published = await publishPost(id, author.id)
 
         return Response.json(published, { status: 200 })
     } catch (err) {

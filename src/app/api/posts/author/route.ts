@@ -4,9 +4,9 @@ import { getPostByAuthor } from "@/service/post.service"
 
 export async function GET(request: Request) {
     try {
-        const author = await authenticateFromRequest(request, ['admin', 'author'])
+        const { id } = await authenticateFromRequest(request, ['admin', 'author'])
 
-        const posts = await getPostByAuthor(author.id)
+        const posts = await getPostByAuthor(id)
 
         return Response.json(posts, { status: 201 })
     } catch (err) {

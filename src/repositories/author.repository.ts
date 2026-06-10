@@ -1,6 +1,6 @@
 
 import { supabase } from '@/lib/supabase/server'
-import { Author, CreateAuthorInput, UpdateAuthorInput } from '@/types/author.model'
+import { AuthenticateAuthor, Author, CreateAuthorInput, UpdateAuthorInput } from '@/types/author.model'
 
 export const create = async (data: CreateAuthorInput): Promise<Author> => {
     const { data: author, error } = await supabase
@@ -59,7 +59,7 @@ export const findAll = async (): Promise<Author[]> => {
     return data || []
 }
 
-export const findByApiKeyHash = async (api_key_hash: string): Promise<Pick<Author, "id" | 'role'> | null> => {
+export const findByApiKeyHash = async (api_key_hash: string): Promise<AuthenticateAuthor | null> => {
 
     const { data, error } = await supabase
         .from('authors')
