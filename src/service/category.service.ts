@@ -3,7 +3,7 @@ import { HttpError } from "@/lib/httpError"
 import * as categoryRepository from "@/repositories/category.repository"
 import { CreateCategoryInput, UpdateCategoryInput } from "@/types/category.model"
 
-const hasCategory = async (id: string) => {
+export const hasCategory = async (id: string) => {
     const category = await categoryRepository.findById(id)
     if (!category) {
         throw new HttpError(404, "Autor não encontrado")
