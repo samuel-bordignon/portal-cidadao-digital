@@ -3,7 +3,7 @@ import { UpdateCategorySchema } from "@/schemas/category.schema"
 import { getCategoryById, updateCategory, deleteCategory } from "@/service/category.service"
 import { errorResponse } from "@/lib/httpError"
 
-export async function GET(context: { params: Promise<{ id: string }> }) {
+export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 
@@ -37,9 +37,9 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
 
     await authenticateFromRequest(request, ['admin'])
 
-    const category = await deleteCategory(id)
-
-    return Response.json(category, { status: 204 })
+    await deleteCategory(id)
+    
+    return new Response(null, { status: 204 })
   } catch (err) {
     return errorResponse(err)
   }

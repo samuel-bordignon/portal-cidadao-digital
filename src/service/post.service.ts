@@ -79,7 +79,7 @@ export const deletePost = async (id: string, author: AuthenticateAuthor) => {
         throw new HttpError(403, "Sem permissão")
     }
 
-    return postRepository.remove(id)
+    await postRepository.remove(id)
 }
 
 export const publishPost = async (id: string, author_id: string) => {

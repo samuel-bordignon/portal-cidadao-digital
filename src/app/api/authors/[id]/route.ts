@@ -39,9 +39,9 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
 
     await authenticateFromRequest(request, ['admin'])
 
-    const author = await deleteAuthor(id)
+    await deleteAuthor(id)
 
-    return Response.json(author, { status: 204 })
+    return new Response(null, { status: 204 })
   } catch (err) {
     return errorResponse(err)
   }

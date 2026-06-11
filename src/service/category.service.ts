@@ -28,8 +28,7 @@ export const deleteCategory = async (id: string) => {
     if (!category) {
         throw new HttpError(404, 'Categoria não encontrada')
     }
-
-    return await categoryRepository.remove(id)
+    await categoryRepository.remove(id)  
 }
 
 export const getCategoryById = async (id: string) => {
@@ -59,6 +58,7 @@ export const getCategoriesByAuthor = async (author_id: string) => {
     if (!categories) {
         throw new HttpError(404, "Categorias não encontradas")
     }
+    return categories
 }
 
 export const getCategoriesWithPublishedPosts = async () => {

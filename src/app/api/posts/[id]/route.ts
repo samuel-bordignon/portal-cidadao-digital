@@ -27,7 +27,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
     const updated = await updatePost(id, payload, author)
 
-    return Response.json(updated, { status: 204 })
+    return Response.json(updated, { status: 200 })
   } catch (err) {
     return errorResponse(err)
   }
@@ -39,9 +39,9 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
 
     const author = await authenticateFromRequest(request, ['admin', "author"])
 
-    const category = await deletePost(id, author)
+    await deletePost(id, author)
 
-    return Response.json(category, { status: 204 })
+    return new Response(null, { status: 204 })
   } catch (err) {
     return errorResponse(err)
   }

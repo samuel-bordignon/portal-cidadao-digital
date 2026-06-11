@@ -28,7 +28,7 @@ export const deleteAuthor = async (id: string) => {
     if (!author) {
         throw new HttpError(404, "Autor não encontrado")
     }
-    return await authorRepository.remove(id)
+    await authorRepository.remove(id)
 }
 
 export const getAuthorById = async (id: string) => {
