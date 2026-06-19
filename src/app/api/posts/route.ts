@@ -2,8 +2,9 @@ import { authenticateFromRequest } from "@/lib/auth"
 import { CreatePostSchema } from "@/schemas/post.schema"
 import * as PostService from "@/service/post.service"
 import { errorResponse } from '@/lib/httpError'
+import { NextRequest } from "next/server"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const author = await authenticateFromRequest(request, ['admin', 'author'])
 
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
         await authenticateFromRequest(request, ['admin', 'author'])
         const posts = await PostService.getPosts()

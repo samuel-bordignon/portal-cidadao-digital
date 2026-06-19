@@ -2,8 +2,9 @@ import { authenticateFromRequest } from "@/lib/auth"
 import { UpdateCategorySchema } from "@/schemas/category.schema"
 import { getCategoryById, updateCategory, deleteCategory } from "@/service/category.service"
 import { errorResponse } from "@/lib/httpError"
+import { NextRequest } from "next/server"
 
-export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 
@@ -15,7 +16,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
   }
 }
 
-export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 
@@ -31,7 +32,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   }
 }
 
-export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 

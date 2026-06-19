@@ -1,8 +1,9 @@
 import { authenticateFromRequest } from "@/lib/auth"
 import { publishPost } from "@/service/post.service"
 import { errorResponse } from "@/lib/httpError"
+import { NextRequest } from "next/server"
 
-export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         const { id } = await context.params
 

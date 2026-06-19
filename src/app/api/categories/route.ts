@@ -2,8 +2,9 @@ import { authenticateFromRequest } from "@/lib/auth"
 import { CreateCategorySchema } from "@/schemas/category.schema"
 import { createCategory, getCategories } from "@/service/category.service"
 import { errorResponse } from '@/lib/httpError'
+import { NextRequest } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const { id } = await authenticateFromRequest(request, ['admin', 'author'])
 
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET(request: Request) {
+export async function GET(_request: NextRequest) {
     try {
         const categories = await getCategories()
 

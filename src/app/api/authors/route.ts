@@ -2,8 +2,9 @@ import { authenticateFromRequest } from "@/lib/auth"
 import { createdAuthorSchema } from "@/schemas/author.schema"
 import { createAuthor, getAuthors } from "@/service/author.service"
 import { errorResponse } from '@/lib/httpError'
+import { NextRequest } from "next/server"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         await authenticateFromRequest(request, ['admin'])
 
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
         await authenticateFromRequest(request, ['admin'])
 

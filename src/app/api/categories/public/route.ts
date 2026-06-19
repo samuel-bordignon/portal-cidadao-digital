@@ -1,7 +1,8 @@
 import { errorResponse } from "@/lib/httpError"
 import { getCategoriesWithPublishedPosts } from "@/service/category.service"
+import { NextRequest } from "next/server"
 
-export async function GET() {
+export async function GET(request:NextRequest) {
     try {
         const categories = await getCategoriesWithPublishedPosts()
 
