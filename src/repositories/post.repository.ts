@@ -1,6 +1,6 @@
 
 import { supabase } from '@/lib/supabase/server'
-import { Post, CreatePostInput, UpdatePostInput} from '@/types/post.model'
+import { Post, CreatePostInput, UpdatePostInput } from '@/types/post.model'
 
 export const create = async (data: CreatePostInput): Promise<Post> => {
   const { data: post, error } = await supabase
@@ -72,7 +72,11 @@ export const findAllPublished = async (): Promise<Post[]> => {
     `)
     .eq('status', 'published')
 
+    console.log('DATA', data)
+    console.log('ERROR', error)
+    
   if (error) throw error
+
 
   return data ?? []
 }

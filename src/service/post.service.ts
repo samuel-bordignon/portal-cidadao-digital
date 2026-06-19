@@ -8,7 +8,7 @@ import { hasCategory } from "./category.service";
 const hasPost = async (id: string) => {
     const category = await postRepository.findById(id)
     if (!category) {
-        throw new HttpError(404, "Autor não encontrado")
+        throw new HttpError(404, "Autor não encontrado")    
     }
     return category
 }
