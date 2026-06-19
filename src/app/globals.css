@@ -5,11 +5,31 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Tipografia — Figma: Font 1 = Sora, Font 2/3 = Lora */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-heading);
+
+  /* Primitivas da marca (coleção html.to.design no Figma) */
+  --color-portal-navy: var(--portal-navy);
+  --color-portal-navy-deep: var(--portal-navy-deep);
+  --color-portal-navy-muted: var(--portal-navy-muted);
+  --color-portal-teal: var(--portal-teal);
+  --color-portal-teal-dark: var(--portal-teal-dark);
+  --color-portal-surface: var(--portal-surface);
+  --color-portal-surface-raised: var(--portal-surface-raised);
+  --color-portal-border: var(--portal-border);
+  --color-portal-heading: var(--portal-heading);
+  --color-portal-body: var(--portal-body);
+  --color-portal-muted: var(--portal-muted);
+  --color-portal-placeholder: var(--portal-placeholder);
+  --color-portal-orange: var(--portal-orange);
+  --color-portal-amber: var(--portal-amber);
+  --color-portal-danger: var(--portal-danger);
+
+  /* Semânticas shadcn → Tailwind */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,82 +59,130 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Raios — Figma: 8px inputs, 10px cards, 12px painéis */
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.25);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 1.75);
+  --radius-3xl: calc(var(--radius) * 2);
+  --radius-4xl: calc(var(--radius) * 2.5);
+
+  /* Sombras */
+  --shadow-header: var(--shadow-header);
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* --- Primitivas (valores resolvidos do Figma) --- */
+  --portal-navy: #0a2540;
+  --portal-navy-deep: #163652;
+  --portal-navy-muted: #1a3a5c;
+  --portal-teal: #00b397;
+  --portal-teal-dark: #007a6a;
+  --portal-surface: #f7f9fc;
+  --portal-surface-raised: #f1f3f7;
+  --portal-border: #e2e6ed;
+  --portal-heading: #1a2033;
+  --portal-body: #3d4a60;
+  --portal-muted: #6b7690;
+  --portal-placeholder: #9ba8bf;
+  --portal-orange: #e8531a;
+  --portal-amber: #f5a623;
+  --portal-danger: #ff3b30;
+
+  --radius: 0.5rem;
+  --shadow-header: 0 2px 6px rgb(10 37 64 / 8%);
+
+  /* --- Modo claro (semânticas) --- */
+  --background: #ffffff;
+  --foreground: var(--portal-heading);
+
+  --card: #ffffff;
+  --card-foreground: var(--portal-heading);
+
+  --popover: #ffffff;
+  --popover-foreground: var(--portal-heading);
+
+  --primary: var(--portal-teal);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--portal-surface-raised);
+  --secondary-foreground: var(--portal-navy);
+
+  --muted: var(--portal-surface);
+  --muted-foreground: var(--portal-muted);
+
+  --accent: #e0f7f3;
+  --accent-foreground: var(--portal-teal-dark);
+
+  --destructive: var(--portal-danger);
+
+  --border: var(--portal-border);
+  --input: var(--portal-border);
+  --ring: var(--portal-teal);
+
+  --chart-1: var(--portal-teal);
+  --chart-2: var(--portal-orange);
+  --chart-3: #4b52cc;
+  --chart-4: #2e7d32;
+  --chart-5: var(--portal-amber);
+
+  --sidebar: var(--portal-navy);
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: var(--portal-teal);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--portal-navy-muted);
+  --sidebar-accent-foreground: rgb(255 255 255 / 80%);
+  --sidebar-border: rgb(255 255 255 / 15%);
+  --sidebar-ring: var(--portal-teal);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* --- Modo escuro (paleta derivada da marca no Figma) --- */
+  --background: var(--portal-navy);
+  --foreground: var(--portal-surface);
+
+  --card: var(--portal-navy-deep);
+  --card-foreground: var(--portal-surface);
+
+  --popover: var(--portal-navy-deep);
+  --popover-foreground: var(--portal-surface);
+
+  --primary: var(--portal-teal);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--portal-navy-muted);
+  --secondary-foreground: rgb(255 255 255 / 90%);
+
+  --muted: var(--portal-navy-deep);
+  --muted-foreground: var(--portal-placeholder);
+
+  --accent: rgb(0 179 151 / 15%);
+  --accent-foreground: var(--portal-teal);
+
+  --destructive: #ff5f56;
+
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 12%);
+  --ring: var(--portal-teal);
+
+  --chart-1: var(--portal-teal);
+  --chart-2: #ff7b50;
+  --chart-3: #818cf8;
+  --chart-4: #27c93f;
+  --chart-5: var(--portal-amber);
+
+  --shadow-header: 0 2px 6px rgb(0 0 0 / 25%);
+
+  --sidebar: var(--portal-navy-deep);
+  --sidebar-foreground: var(--portal-surface);
+  --sidebar-primary: var(--portal-teal);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--portal-navy-muted);
+  --sidebar-accent-foreground: rgb(255 255 255 / 85%);
+  --sidebar-border: rgb(255 255 255 / 10%);
+  --sidebar-ring: var(--portal-teal);
 }
 
 @layer base {
@@ -126,5 +194,13 @@
   }
   html {
     @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading), var(--font-sans), ui-serif, serif;
   }
 }
