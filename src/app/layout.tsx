@@ -30,7 +30,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", "font-sans", sora.variable, lora.variable)}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
+       {children}
       </body>
     </html>
   );

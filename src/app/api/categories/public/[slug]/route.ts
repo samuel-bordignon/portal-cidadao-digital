@@ -1,7 +1,8 @@
 import { errorResponse } from "@/lib/httpError"
 import { getCategoryBySlug } from "@/service/category.service"
+import { NextRequest } from "next/server"
 
-export async function GET(context: { params: Promise<{ slug: string }> }) {
+export async function GET(_request: NextRequest, context: { params: Promise<{ slug: string }> }) {
     try {
         const { slug } = await context.params
 

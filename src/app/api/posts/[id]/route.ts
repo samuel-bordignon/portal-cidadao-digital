@@ -2,8 +2,9 @@ import { errorResponse } from "@/lib/httpError"
 import { authenticateFromRequest } from "@/lib/auth"
 import { UpdatePostSchema } from "@/schemas/post.schema"
 import { deletePost, getPostById, updatePost } from "@/service/post.service"
+import { NextRequest } from "next/server"
 
-export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 
@@ -17,7 +18,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   }
 }
 
-export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 
@@ -33,7 +34,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   }
 }
 
-export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
 
