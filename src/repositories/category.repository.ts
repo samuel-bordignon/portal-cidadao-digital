@@ -47,11 +47,11 @@ export const findById = async (id: string): Promise<Category | null> => {
     return data
 }
 
-export const findBySlug = async (slug: string): Promise<Category | null> => {
-    
+export const findBySlug = async (slug: string): Promise<Pick<Category, 'id' | 'nome' | 'slug'> | null> => {
+
     const { data, error } = await supabase
         .from('categories')
-        .select(`*`)
+        .select(`id, nome, slug`)
         .eq('slug', slug)
         .maybeSingle()
 
@@ -86,7 +86,7 @@ export const findByAuthor = async (authorId: string): Promise<Category[]> => {
 export const findWithPublishedPosts = async (): Promise<Category[]> => {
     const { data, error } = await supabase
         .from('categories')
-        .select(`*, posts!inner(id)`)
+        .select(`nome, id, posts!inner(id)`)
         .eq('posts.status', 'published')
         .order('nome', { ascending: true })
 
