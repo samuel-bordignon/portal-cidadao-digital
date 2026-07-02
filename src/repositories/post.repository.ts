@@ -67,8 +67,7 @@ export const findAllPublished = async (): Promise<Post[]> => {
     .from('posts')
     .select(`
       *,
-      author:authors(*),
-      category:categories(*)
+      category:categories(nome)
     `)
     .eq('status', 'published')
 
