@@ -1,0 +1,1246 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Portal do Cidadão Digital - API",
+    "version": "1.0.0",
+    "description": "Documentação simplificada contendo apenas os payloads de sucesso da API do Portal do Cidadão Digital."
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "Servidor Local"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/categories": {
+      "post": {
+        "summary": "Criar categoria",
+        "description": "Cria uma nova categoria. O autor autenticado é definido como criador e o slug é gerado automaticamente. Acessível por 'admin' ou 'author'.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryCreatePayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoria criada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar categorias",
+        "description": "Retorna uma lista de todas as categorias, ordenadas alfabeticamente. Rota pública.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Lista de categorias.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "summary": "Obter categoria",
+        "description": "Retorna os detalhes de uma categoria específica pelo ID. Rota pública.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes da categoria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Atualizar categoria",
+        "description": "Atualiza o nome de uma categoria e recalcula o slug. Apenas permitido para o autor dono ou administrador.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryUpdatePayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria atualizada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/author": {
+      "get": {
+        "summary": "Listar categorias do autor",
+        "description": "Retorna todas as categorias criadas pelo autor autenticado. Acessível por 'admin' e 'author'.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categorias do autor.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{id}/author": {
+      "get": {
+        "summary": "Listar categorias de autor por ID",
+        "description": "Retorna as categorias criadas por um autor específico. Apenas acessível por administradores.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do autor dono das categorias",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de categorias do autor informado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/public": {
+      "get": {
+        "summary": "Listar categorias com posts publicados",
+        "description": "Retorna as categorias que contêm ao menos um post publicado. Os posts são omitidos da resposta e apenas os campos de identificação da categoria ('id', 'nome') são retornados. Rota pública.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Categorias encontradas.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryPublic"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/public/{slug}": {
+      "get": {
+        "summary": "Obter categoria pública por slug",
+        "description": "Retorna detalhes da categoria correspondente ao slug fornecido. Limita a resposta apenas a 'id', 'nome' e 'slug'. Rota pública.",
+        "tags": [
+          "Categories"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria encontrada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryPublicSlug"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts": {
+      "post": {
+        "summary": "Criar post",
+        "description": "Cria um novo post no sistema com status inicial 'draft'. O slug é gerado automaticamente a partir do título. Acessível por 'admin' ou 'author'. NOTA: O post retornado não inclui relacionamentos (joins) com author e category.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCreatePayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostBasic"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar posts",
+        "description": "Retorna uma lista de todos os posts. Acessível por 'admin' e 'author'. Inclui joins de autor e categoria.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de posts.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "summary": "Obter post",
+        "description": "Retorna os detalhes de um post específico. Inclui joins com autor e categoria. Acessível por 'admin' e 'author'.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post retornado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Atualizar post",
+        "description": "Atualiza os dados de um post. Permissões declaradas: Apenas o autor criador do post ou admin podem atualizar. ATENÇÃO: Há bugs graves nesta implementação. O post retornado não inclui joins.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostUpdatePayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post atualizado com sucesso. NOTA: Retorna `null` no body caso a requisição não envie o campo `category_id`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/PostBasic"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar post",
+        "description": "Remove um post pelo ID. Apenas o criador ou admin (efetivamente apenas admins devido a bug na lógica do service).",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Post deletado com sucesso."
+          }
+        }
+      }
+    },
+    "/posts/author": {
+      "get": {
+        "summary": "Listar posts do autor autenticado",
+        "description": "Retorna posts associados ao autor logado. Acessível por 'admin' e 'author'. NOTA: Retorna incorretamente status 201 Created.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lista de posts do autor logado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}/author": {
+      "get": {
+        "summary": "Listar categorias por ID de autor (BUG)",
+        "description": "ATENÇÃO: Este endpoint contém um BUG crítico de implementação. Embora esteja mapeado na rota de posts e chame-se '/posts/{id}/author', o Route Handler executa o método do serviço de categorias 'getCategoriesByAuthor(id)'. O retorno consiste em um array de categorias criadas por esse autor, com status 201 Created. Exige papel de 'admin'.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do autor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Retorna lista de categorias do autor com status 201.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}/publish": {
+      "patch": {
+        "summary": "Publicar post",
+        "description": "Altera o status do post para 'published'. Apenas permitido para o autor criador do post. Retorna o post atualizado sem joins.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post publicado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostBasic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/public": {
+      "get": {
+        "summary": "Listar posts públicos",
+        "description": "Retorna uma lista de posts publicados ('published'). Os posts contêm apenas o nome da categoria no objeto 'category' (sem id ou slug) e não contêm o objeto 'author'. Rota pública.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Lista de posts públicos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostPublic"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/public/{slug}": {
+      "get": {
+        "summary": "Obter post público por slug",
+        "description": "Retorna os detalhes de um post publicado a partir de seu slug. Inclui joins completos com autor e categoria. Rota pública.",
+        "tags": [
+          "Posts"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Envie a chave de API gerada no cabeçalho Authorization: Bearer <api_key>"
+      }
+    },
+    "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "author_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "author_id",
+          "nome",
+          "slug",
+          "created_at"
+        ]
+      },
+      "CategoryCreatePayload": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "nome"
+        ]
+      },
+      "CategoryUpdatePayload": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "nome"
+        ]
+      },
+      "CategoryPublic": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nome": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nome"
+        ]
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "resumo": {
+            "type": "string"
+          },
+          "imagem_capa": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "content_blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentBlock"
+            }
+          },
+          "author_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PostStatus"
+          },
+          "author": {
+            "$ref": "#/components/schemas/Author"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "titulo",
+          "resumo",
+          "imagem_capa",
+          "content_blocks",
+          "author_id",
+          "status",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "PostPublic": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "resumo": {
+            "type": "string"
+          },
+          "imagem_capa": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "content_blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentBlock"
+            }
+          },
+          "author_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PostStatus"
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "nome"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "titulo",
+          "resumo",
+          "imagem_capa",
+          "content_blocks",
+          "author_id",
+          "status",
+          "category",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "PostCreatePayload": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "titulo": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resumo": {
+            "type": "string",
+            "minLength": 1
+          },
+          "imagem_capa": {
+            "type": "string",
+            "format": "uri",
+            "minLength": 1
+          },
+          "content_blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentBlock"
+            }
+          }
+        },
+        "required": [
+          "category_id",
+          "titulo",
+          "resumo",
+          "imagem_capa",
+          "content_blocks"
+        ]
+      },
+      "PostUpdatePayload": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "type": "string",
+            "format": "uuid",
+             "nullable": true
+          },
+          "titulo": {
+            "type": "string",
+            "minLength": 1,
+             "nullable": true
+          },
+          "resumo": {
+            "type": "string",
+            "minLength": 1,
+             "nullable": true
+          },
+          "imagem_capa": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri",
+            "nullable": true
+          },
+          "content_blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentBlock"
+            }
+          }
+        }
+      },
+      "ContentBlock": {
+        "type": "object",
+        "nullable": true,
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/HeadingBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/ParagraphBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/ImageBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/VideoBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/IframeBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/QuoteBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/ListBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/DividerBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/PdfBlock",
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        ]
+      },
+      "HeadingBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "heading"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "integer",
+                "enum": [
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "level",
+              "text"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "ParagraphBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "paragraph"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "ImageBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "image"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "alt": {
+                "type": "string",
+                "minLength": 1
+              },
+              "caption": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "alt"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "VideoBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "video"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "IframeBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "iframe"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "url",
+              "title"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "QuoteBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "quote"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "author": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "text",
+              "author"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "ListBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "list"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "style": {
+                "type": "string",
+                "enum": [
+                  "ordered",
+                  "unordered"
+                ]
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "style",
+              "items"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "DividerBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "divider"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      },
+      "PdfBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "pdf"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "url",
+              "title"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "data"
+        ]
+      }
+    }
+  }
+}
