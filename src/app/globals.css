@@ -6,9 +6,9 @@
 
 @theme inline {
   /* Tipografia — Figma: Font 1 = Sora, Font 2/3 = Lora */
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
+  --font-sans: var(--portal-font-sans);
+  --font-mono: var(--portal-font-mono);
+  --font-heading: var(--portal-font-heading);
 
   /* Primitivas da marca (coleção html.to.design no Figma) */
   --color-portal-navy: var(--portal-navy);
@@ -75,6 +75,9 @@
 
 :root {
   /* --- Primitivas (valores resolvidos do Figma) --- */
+  --portal-font-sans: "Segoe UI", "Inter", Arial, sans-serif;
+  --portal-font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  --portal-font-heading: Georgia, "Times New Roman", serif;
   --portal-navy: #0a2540;
   --portal-navy-deep: #163652;
   --portal-navy-muted: #1a3a5c;
@@ -192,6 +195,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  ::selection {
+    color: #ffffff;
+    background: var(--portal-teal-dark);
+  }
   html {
     @apply font-sans;
   }
@@ -202,5 +209,11 @@
   h5,
   h6 {
     font-family: var(--font-heading), var(--font-sans), ui-serif, serif;
+  }
+}
+
+@layer components {
+  .article-content > * {
+    max-width: 100%;
   }
 }
