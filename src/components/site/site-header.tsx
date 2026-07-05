@@ -1,4 +1,4 @@
-import { Search } from "lucide-react"
+import { ChevronDown, Search } from "lucide-react"
 import Link from "next/link"
 
 import { getCategoryHref } from "@/lib/news-api"
@@ -39,22 +39,30 @@ export function SiteHeader({ categories }: SiteHeaderProps) {
           </form>
         </div>
 
-        <div className="flex items-center gap-3 overflow-x-auto border-t py-2 text-sm font-semibold text-portal-body [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="relative flex items-center gap-3 border-t py-2 text-sm font-semibold text-portal-body">
           <Link
             href="/"
             className="shrink-0 rounded-full px-3 py-1.5 transition hover:bg-portal-surface hover:text-portal-teal-dark"
           >
             Inicio
           </Link>
-          {categories.map((category) => (
-            <Link
-              key={category.id}
-              href={getCategoryHref(category)}
-              className="shrink-0 rounded-full px-3 py-1.5 transition hover:bg-portal-surface hover:text-portal-teal-dark"
-            >
-              {category.nome}
-            </Link>
-          ))}
+          <details className="group relative">
+            <summary className="flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-1.5 transition hover:bg-portal-surface hover:text-portal-teal-dark focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 [&::-webkit-details-marker]:hidden">
+              Categorias
+              <ChevronDown className="size-4 transition group-open:rotate-180" />
+            </summary>
+            <div className="absolute left-0 top-full z-50 mt-2 max-h-[60vh] w-[min(88vw,320px)] overflow-y-auto rounded-md border bg-white p-2 shadow-lg">
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={getCategoryHref(category)}
+                  className="block rounded-sm px-3 py-2 text-sm font-semibold text-portal-body transition hover:bg-portal-surface hover:text-portal-teal-dark"
+                >
+                  {category.nome}
+                </Link>
+              ))}
+            </div>
+          </details>
         </div>
 
         <form action="/busca" className="pb-3 md:hidden">
